@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        input {
+            display: none;
+        }
+
+        input[type='checkbox'] + label:before {
+            content: '';
+            display: inline-block;
+            background: url("99322cf8c3283e42.png") no-repeat 0 0;
+            width: 16px;
+            height: 16px;
+        }
+
+        input[type='checkbox']:checked + label:before {
+            background: url("99322cf8c3283e42.png") no-repeat -35px 0;
+        }
+
+        input[type='radio'] + label:before {
+            content: ' ';
+            display: inline-block;
+            background: url("99322cf8c3283e42.png") no-repeat 0 -23px;
+            width: 16px;
+            height: 16px;
+        }
+        input[type='radio']:checked + label:before {
+            background: url("99322cf8c3283e42.png") no-repeat -35px -22px;
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    <input type="checkbox" id="check"><label for="check"></label>
+</div>
+<div>
+    <input type="radio" id="radio"><label for="radio"></label>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>鼠标悬浮模糊效果</title>
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        .container {
+            width: 300px;
+            margin: 0 auto;
+            position: relative;
+            text-align: center;
+            transition: all .3s;
+        }
+
+        .container > img {
+            width: 100%;
+            transition: all .3s;
+        }
+
+        .info {
+            width: 200px;
+            height: 100px;
+            position: absolute;
+            top: 50%;
+            left: 50px;
+            margin-top: -50px;
+            opacity: 0;
+            transition: all .3s;
+        }
+
+        .info > p {
+            font-size: 16px;
+            background-image: -webkit-linear-gradient(left, blue, yellow 25%, red 50%, yellow 75%, blue);
+            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text;
+            -webkit-background-size: 200% 100%;
+            -webkit-animation: font-an 4s infinite linear;
+        }
+
+        @-webkit-keyframes font-an {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: -100% 0;
+            }
+        }
+
+        .top {
+            display: block;
+            width: 0;
+            height: 3px;
+            background-color: #ffffff;
+            position: absolute;
+            top: 50%;
+            left: 50px;
+            margin-top: -53px;
+            margin-left: 30%;
+            opacity: 0;
+            transition: all .8s;
+        }
+
+        .bottom {
+            display: block;
+            width: 0;
+            height: 3px;
+            background-color: #ffffff;
+            position: absolute;
+            top: 50%;
+            left: 50px;
+            margin-top: 53px;
+            margin-left: 30%;
+            opacity: 0;
+            transition: all .8s;
+        }
+
+        .left {
+            display: block;
+            width: 3px;
+            height: 0;
+            background-color: #ffffff;
+            position: absolute;
+            top: 50%;
+            left: 50px;
+
+            opacity: 0;
+            transition: all .8s;
+        }
+
+        .right {
+            display: block;
+            width: 3px;
+            height: 0;
+            background-color: #ffffff;
+            position: absolute;
+            top: 50%;
+            left: 247px;
+            opacity: 0;
+            transition: all .8s;
+        }
+
+        .container:hover .top {
+            width: 200px;
+            margin-left: 0;
+            opacity: 1;
+        }
+
+        .container:hover .bottom {
+            width: 200px;
+            margin-left: 0;
+            opacity: 1;
+        }
+
+        .container:hover .left {
+            height: 103px;
+            margin-top: -50px;
+            opacity: 1;
+        }
+
+        .container:hover .right {
+            height: 103px;
+            margin-top: -50px;
+            opacity: 1;
+        }
+
+        .container:hover .info {
+            opacity: 1;
+        }
+
+        .container:hover img {
+            -webkit-filter: blur(3px); /* Chrome, Opera */
+            -moz-filter: blur(3px);
+            -ms-filter: blur(3px);
+            filter: blur(3px);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <img src="1.jpg">
+    <div class="info">
+        <p>欢迎参加百度前端技术学院</p>
+        <a href="#">点击报名</a>
+    </div>
+    <span class="top"></span>
+    <span class="bottom"></span>
+    <span class="left"></span>
+    <span class="right"></span>
+</div>
+</body>
+</html>

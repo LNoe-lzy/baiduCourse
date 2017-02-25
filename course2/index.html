@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义右键菜单</title>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        #menu {
+            display: block;
+            width: 150px;
+            border: solid 1px #D3D3D3;
+            overflow: hidden;
+            position: absolute;
+        }
+        #menu > a{
+            display: block;
+            width: 100%;
+            padding: .5rem;
+        }
+    </style>
+</head>
+<body>
+<div id="menu">
+    <a>item1</a>
+    <a>item2</a>
+    <a>item3</a>
+</div>
+
+<script>
+    var menu = document.getElementById('menu');
+    var menuH = menu.offsetHeight;
+    var menuW = menu.offsetWidth;
+    menu.style['display'] = 'none';
+    window.onload = function () {
+        document.oncontextmenu = function (e) {
+            e = e || window.event;
+            var clientW = document.body.clientWidth;
+            var clientH = document.body.clientHeight;
+            var left = e.clientX + menuW > clientW ? e.clientX - menuW : e.clientX;
+            var top = e.clientY + menuH > clientH ? e.clientY - menuH : e.clientY;
+            menu.style['display'] = 'block';
+            menu.style['left'] = left + 'px';
+            menu.style['top'] = top + 'px';
+            // 阻止浏览器的默认右键点击事件
+            return false;
+        };
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.nodeName.toLowerCase() == "a") {
+                return;
+            }
+            menu.style['display'] = 'none';
+        });
+        menu.addEventListener('click', function (e) {
+            if (e.target && e.target.nodeName.toLowerCase() == "a") {
+                alert(e.target.innerHTML);
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .container {
+            border: 1px solid #dddddd;
+            border-radius: 3px;
+        }
+        input[type=checkbox] {
+            display: none;
+        }
+        input[type=checkbox] + label {
+            display: block;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 10px 15px;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+        }
+        .info {
+            padding: 0 15px;
+            height: 0;
+            overflow: hidden;
+            transition: all .3s;
+        }
+        input[type=checkbox]:checked ~ label + .info {
+            padding: 15px;
+            height: auto;
+        }
+        input[type=checkbox]:checked ~ label {
+            border-bottom: solid 1px #dddddd;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <input type="checkbox" id="pane1">
+    <label for="pane1">Collapsible Group Item #1</label>
+    <div class="info">
+        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+    </div>
+</div>
+<div class="container">
+    <input type="checkbox" id="pane2">
+    <label for="pane2">Collapsible Group Item #1</label>
+    <div class="info">
+        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+        3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+    </div>
+</div>
+<div class="container">
+    <input type="checkbox" id="pane3">
+    <label for="pane3">Collapsible Group Item #1</label>
+    <div class="info">
+        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+        3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+    </div>
+</div>
+</body>
+</html>

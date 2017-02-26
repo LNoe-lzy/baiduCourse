@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .stage {
+            width: 1000px;
+            height: 500px;
+            margin: 0 auto;
+            perspective: 800px;
+            background: #D3D3D3;
+        }
+        .container {
+            width: 300px;
+            height: 300px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -150px;
+            margin-top: -150px;
+            transform-style: preserve-3d;
+            transform: rotateY(0deg);
+        }
+        .img {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+            position: absolute;
+        }
+        .img:nth-child(1) {
+            transform: rotateY(0deg) translateZ(300px);
+        }
+        .img:nth-child(2) {
+            transform: rotateY(60deg) translateZ(300px);
+        }
+        .img:nth-child(3) {
+            transform: rotateY(120deg) translateZ(300px);
+        }
+        .img:nth-child(4) {
+            transform: rotateY(180deg) translateZ(300px);
+        }
+        .img:nth-child(5) {
+            transform: rotateY(240deg) translateZ(300px);
+        }
+        .img:nth-child(6) {
+            transform: rotateY(300deg) translateZ(300px);
+        }
+
+        .arrow {
+            position: absolute;
+            display: block;
+            font-size: 36px;
+            font-weight: 700;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            color: #ffffff;
+            top: 50%;
+            margin-top: -25px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #prev {
+            left: 10px;
+        }
+        #next {
+            right: 10px;
+        }
+
+    </style>
+    <script src="imageScroll3D.js"></script>
+</head>
+<body>
+<div class="stage">
+    <div class="container">
+        <img src="img/1.jpg" class="img">
+        <img src="img/2.jpg" class="img">
+        <img src="img/3.jpg" class="img">
+        <img src="img/4.jpg" class="img">
+        <img src="img/5.jpg" class="img">
+        <img src="img/6.jpg" class="img">
+    </div>
+    <span class="arrow" id="prev"> < </span>
+    <span class="arrow" id="next"> > </span>
+</div>
+
+<script>
+    window.onload = function () {
+        var con = document.getElementsByClassName('container')[0];
+        var s = new ImageScroll3D(con, 6);
+        var next = document.getElementById('next');
+        var prev = document.getElementById('prev');
+        next.onclick = function () {
+            s.animate(true);
+        };
+        prev.onclick = function () {
+            s.animate(false);
+        };
+        prev.onmouseover = next.onmouseover = function () {
+            s.stop();
+        };
+        prev.onmouseout = next.onmouseout = function () {
+            s.start();
+        };
+    }
+</script>
+
+</body>
+</html>

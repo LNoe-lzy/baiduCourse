@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container">
+    <div class="upload-box">
+        <input type="text" id="net" placeholder="请输入音频链接">
+        <button id="fileBtn">确定</button>
+    </div>
+    <div class="audio-box">
+        <div class="box-top">
+            <div class="left"><img src="img/1.jpg"></div>
+            <div class="center">
+            </div>
+            <div class="right">
+                <a id="loop"></a>
+            </div>
+            <a id="plus"></a>
+        </div>
+        <div class="progress">
+            <div class="progress-value">
+                <span id="progressBtn"></span>
+            </div>
+        </div>
+        <div class="box-bottom">
+            <div class="time">00:00</div>
+            <div class="controls">
+                <a id="prev"></a>
+                <a id="play" style="display: inline-block"></a>
+                <a id="pause" style="display: none"></a>
+                <a id="next"></a>
+            </div>
+            <div class="volume">
+                <div class="level">
+                    <div class="volume-value">
+                        <span id="volumeBtn"></span>
+                    </div>
+                </div>
+                <div class="volume-min"></div>
+                <div class="volume-max"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<audio id="media">不支持</audio>
+<script>
+    window.onload = function () {
+        var media = document.getElementById('media');
+        var play = document.getElementById('play');
+        var pause = document.getElementById('pause');
+        var progress = document.getElementsByClassName('progress')[0];
+        var progressValue = document.getElementsByClassName('progress-value')[0];
+        var curTime = document.getElementsByClassName('time')[0];
+        var progressBtn = document.getElementById('progressBtn');
+        var volumeBtn = document.getElementById('volumeBtn');
+        var volumeValue = document.getElementsByClassName('volume-value')[0];
+        var volumeLevel = document.getElementsByClassName('level')[0];
+        var volumeMin = document.getElementsByClassName('volume-min')[0];
+        var volumeMax = document.getElementsByClassName('volume-max')[0];
+        var loop = document.getElementById('loop');
+
+        var duration = media.duration;
+        var timer = null;
+
+        var t = media.currentTime;
+        curTime.innerHTML = Math.floor(t / 60) + ":" + (t % 60 / 100).toFixed(2).slice(-2);
+
+        loop.onclick = function () {
+            if (!media.loop) {
+                loop.style['background-image'] = 'url("img/loop.png")';
+                media.loop = true;
+            } else {
+                loop.style['background-image'] = 'url("img/loop_1.png")';
+                media.loop = false;
+            }
+        };
+
+        play.onclick = function () {
+            this.style['display'] = 'none';
+            pause.style['display'] = 'inline-block';
+            media.play();
+            getTime();
+        };
+        pause.onclick = function () {
+            this.style['display'] = 'none';
+            play.style['display'] = 'inline-block';
+            media.pause();
+            clearInterval(timer);
+        };
+
+        progress.onclick = function (e) {
+            e = e || window.event;
+            var left = e.clientX;
+            var pLeft = progress.getBoundingClientRect().left;
+            media.currentTime = (left - pLeft) / 400 * duration;
+            var t = media.currentTime;
+            progressValue.style['width'] = t / duration * 100 + '%';
+            curTime.innerHTML = Math.floor(t / 60) + ":" + (t % 60 / 100).toFixed(2).slice(-2);
+        };
+
+        progressBtn.onmousedown = function () {
+            var pLeft = progress.getBoundingClientRect().left;
+            progress.onmousemove = function (e) {
+                e = e || window.event;
+                var left = e.clientX;
+                media.currentTime = (left - pLeft) / 400 * duration;
+                var t = media.currentTime;
+                progressValue.style['width'] = t / duration * 100 + '%';
+                curTime.innerHTML = Math.floor(t / 60) + ":" + (t % 60 / 100).toFixed(2).slice(-2);
+            };
+        };
+
+        volumeLevel.onclick = function (e) {
+            e = e || window.event;
+            var left = e.clientX;
+            var pLeft = volumeValue.getBoundingClientRect().left;
+            var tmp = left - pLeft;
+            if (tmp / 200 > 1) {
+                tmp = 200;
+            } else if (tmp / 200 < 0) {
+                tmp = 0;
+            }
+            media.volume = tmp / 200;
+            volumeValue.style['width'] = tmp + 'px';
+        };
+
+        volumeBtn.onmousedown = function () {
+            var pLeft = volumeValue.getBoundingClientRect().left;
+            volumeLevel.onmousemove = function (e) {
+                e = e || window.event;
+                var left = e.clientX;
+                var tmp = left - pLeft;
+                if (tmp / 200 > 1) {
+                    tmp = 200;
+                } else if (tmp / 200 < 0) {
+                    tmp = 0;
+                }
+                media.volume = tmp / 200;
+                volumeValue.style['width'] = tmp + 'px';
+            };
+        };
+
+        volumeMin.onclick = function () {
+            media.volume = 0;
+            volumeValue.style['width'] = 0 + 'px';
+        };
+        volumeMax.onclick = function () {
+            media.volume = 1;
+            volumeValue.style['width'] = 100 + '%';
+        };
+
+        progressBtn.onmouseup = function () {
+            progress.onmousemove = function () {
+                return;
+            };
+        };
+        volumeBtn.onmouseup = function () {
+            volumeLevel.onmousemove = function () {
+                return;
+            };
+        };
+
+        var getTime = function () {
+            timer = setInterval(function () {
+                var t = media.currentTime;
+                progressValue.style['width'] = t / duration * 100 + '%';
+                curTime.innerHTML = Math.floor(t / 60) + ":" + (t % 60 / 100).toFixed(2).slice(-2);
+                if (media.currentTime === duration) {
+                    clearInterval(timer);
+                }
+            }, 100);
+        };
+
+        var uploadBox = document.getElementsByClassName('upload-box')[0];
+        var plus = document.getElementById('plus');
+        plus.onclick = function () {
+            console.log('123');
+            uploadBox.style.display = 'block';
+        };
+        var net = document.getElementById('net');
+        var fileBtn = document.getElementById('fileBtn');
+        fileBtn.onclick = function () {
+            var audioFile = net.value;
+            media.setAttribute('src', 'audio/' + audioFile + '.mp3');
+            document.getElementsByClassName('center')[0].innerHTML = audioFile;
+            uploadBox.style.display = 'none';
+        }
+    }
+</script>
+</body>
+</html>

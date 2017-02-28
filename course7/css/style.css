@@ -1,0 +1,242 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+}
+
+.container {
+    width: calc(100vw);
+    height: calc(100vh);
+    background: #dddddd url("../img/background.jpg") no-repeat center;
+    background-size: 100% 100%;
+    position: relative;
+}
+
+.audio-box {
+    width: 400px;
+    height: 300px;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    background: #222;
+    position: absolute;
+    overflow: hidden;
+    left: 50%;
+    top: 50%;
+    margin-left: -200px;
+    margin-top: -150px;
+}
+
+.box-top {
+    width: 100%;
+    height: 100px;
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+}
+
+.box-top > .left {
+    width: 80px;
+    height: 80px;
+    border-radius: 3px;
+    overflow: hidden;
+    position: absolute;
+}
+
+.box-top > .center {
+    width: 200px;
+    height: 80px;
+    margin-left: 100px;
+    text-align: center;
+    color: rgba(225, 225, 225, 0.4);
+    font-size: 30px;
+    font-weight: 300;
+    line-height: 80px;
+    overflow: hidden;
+}
+
+.box-top > .right {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 40px;
+    top: 40px;
+}
+
+.box-top > .right > #loop {
+    width: 20px;
+    height: 20px;
+    display: block;
+    background: url("../img/loop_1.png") no-repeat center;
+    cursor: pointer;
+}
+
+.progress {
+    height: 4px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.progress-value {
+    display: block;
+    height: 4px;
+    width: 0;
+    background: #ed553b;
+    position: relative;
+}
+
+#progressBtn {
+    background: url("../img/cube.png") no-repeat center;
+    height: 22px;
+    width: 22px;
+    position: absolute;
+    right: -11px;
+    top: -9px;
+    cursor: pointer;
+}
+
+.box-bottom {
+    width: 100%;
+    height: 198px;
+    background: rgba(152, 46, 75, 0.6);
+}
+
+.controls {
+    width: 300px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.controls > a {
+    display: inline-block;
+    width: 100px;
+    height: 40px;
+    float: left;
+    cursor: pointer;
+}
+
+.time {
+    text-align: center;
+    font-size: 48px;
+    color: rgba(225, 225, 225, 0.4);
+    padding: 15px 0 20px;
+}
+
+#prev {
+    background: url("../img/prev.png") no-repeat center;
+}
+
+#play {
+    background: url("../img/play.png") no-repeat center;
+}
+
+#pause {
+    background: url("../img/pause.png") no-repeat center;
+}
+
+#next {
+    background: url("../img/next.png") no-repeat center;
+}
+
+.volume {
+    margin-top: 30px;
+    position: relative;
+}
+
+.volume > .level {
+    width: 200px;
+    height: 4px;
+    background: rgba(225, 225, 225, 0.3);
+    margin: 0 auto;
+    position: relative;
+    cursor: pointer;
+}
+
+.volume-value {
+    display: block;
+    height: 4px;
+    width: 100%;
+    background: #ed553b;
+    position: relative;
+    max-width: 100%;
+}
+
+#volumeBtn {
+    background: url("../img/dot.png") no-repeat center;
+    height: 22px;
+    width: 22px;
+    position: absolute;
+    right: -11px;
+    top: -8px;
+    cursor: pointer;
+}
+
+.volume-min {
+    background: url("../img/volume_min.png") no-repeat center;
+    width: 22px;
+    height: 22px;
+    display: block;
+    cursor: pointer;
+    position: absolute;
+    left: 70px;
+    top: -10px;
+}
+
+.volume-max {
+    background: url("../img/volume_max.png") no-repeat center;
+    width: 22px;
+    height: 22px;
+    display: block;
+    cursor: pointer;
+    position: absolute;
+    left: 320px;
+    top: -10px;
+}
+
+#plus {
+    width: 20px;
+    height: 20px;
+    background: url("../img/plus.png") no-repeat center;
+    position: absolute;
+    cursor: pointer;
+    right: 10px;
+    top: 10px;
+}
+
+.upload-box {
+    display: none;
+    box-sizing: border-box;
+    width: 400px;
+    height: 50px;
+    background: #222;
+    border-radius: 8px;
+    overflow: hidden;
+    position: absolute;
+    left: 50%;
+    top: 90px;
+    margin-left: -200px;
+    padding: 10px;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.8);
+}
+.upload-box > #net {
+    box-sizing: border-box;
+    height: 30px;
+    width: 300px;
+    border: none;
+    border-radius: 3px;
+    padding: 0 10px;
+    float: left;
+    margin-right: 20px;
+}
+.upload-box > button {
+    box-sizing: border-box;
+    background-color: #ffffff;
+    float: left;
+    height: 30px;
+    border: none;
+    border-radius: 3px;
+    padding: 0 15px;
+}

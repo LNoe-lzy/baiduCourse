@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        ul {
+            list-style: none;
+        }
+
+        ul > li {
+            background-image: url("./img/fold-minus.png");
+            background-repeat: no-repeat;
+            background-size: 16px 16px;
+            background-position: 0 3px;
+            text-indent: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="root">
+
+</div>
+
+<script>
+    var nodes = [
+        {
+            name: "父节点1", children: [{
+            name: "子节点1"
+        }, {
+            name: "子节点2"
+        }]
+        }, {
+            name: "父节点2",
+            children: [{
+                name: "子节点3"
+            }, {
+                name: "子节点4",
+                children: [{
+                    name: "子节点5"
+                }]
+            }]
+        }];
+    window.onload = function () {
+
+        var JSTree = function (root, nodes) {
+            this.root = root;
+            // 存储临时节点，初始化为root节点
+            this.node = root;
+            this.nodes = nodes;
+            // 初始化组建
+            this.init();
+        };
+
+        JSTree.prototype = {
+            init: function () {
+               this.create();
+               this.click();
+            },
+            create: function () {
+                var that = this;
+                var ul = document.createElement('ul');
+                this.node.appendChild(ul);
+                this.nodes.forEach(function (e) {
+                    var li = document.createElement('li');
+                    ul.appendChild(li);
+                    var div = document.createElement('div');
+                    div.innerHTML = e.name;
+                    li.appendChild(div);
+                    if (!e.children) {
+                        li.style['background'] = 'none';
+                        return;
+                    }
+                    // 动态添加样式
+                    that.node = li;
+                    that.nodes = e.children;
+                    that.create();
+                });
+            },
+            click: function () {
+                // 为根节点绑定委托事件
+                this.addEvent(this.root, 'click', function (e) {
+                    // 为div节点绑定点击事件
+                    if (e.target && e.target.nodeName.toLowerCase() === 'div') {
+                        var curNode = e.target;
+                        // 获取下一个元素
+                        var ul = curNode.nextElementSibling;
+                        if (!ul) {
+                            return;
+                        }
+                        var style = window.getComputedStyle(ul, null)['display'];
+                        curNode.parentNode.style['background-image'] = style === 'block' ? 'url("./img/fold-plus.png")' : 'url("./img/fold-minus.png")';
+                        ul.style['display'] = style === 'block' ? 'none' : 'block';
+                    }
+                });
+            },
+            addEvent: function (elem, type, handler) {
+                if (window.addEventListener) {
+                    this.addEvent = function (elem, type, handler) {
+                        elem.addEventListener(type, handler);
+                    }
+                } else if (window.attachEvent) {
+                    this.addEvent = function (elem, type, handler) {
+                        elem.attachEvent('on' + type, handler);
+                    }
+                }
+                this.addEvent(elem, type, handler);
+            }
+
+        };
+
+        var root = document.getElementById('root');
+
+        var tree = new JSTree(root, nodes);
+
+    };
+</script>
+
+</body>
+</html>

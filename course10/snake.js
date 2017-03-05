@@ -22,6 +22,7 @@
         // 存储蛇身的位置
         this.body = [];
         this.food = [];
+        this.obstacle = [];
         // 每一步的宽和高
         this.width = 0;
         this.height = 0;
@@ -54,22 +55,21 @@
             this.keyEvent();
 
             this.foodInit(Math.floor(this.row / 2));
+            this.obstacleInit(Math.floor(this.row / 3));
             this.eat();
             this.move(speed);
         },
         /**
          * 创建基本环境
-         * @param row 行数
-         * @param col 列数
          */
-        create: function (row, col) {
+        create: function () {
             // 获取舞台的宽和高
             var sw = parseInt(this.style(this.dom, 'width'));
             var sh = parseInt(this.style(this.dom, 'height'));
-            this.width = Math.floor(sw / row);
-            this.height = Math.floor(sh / row);
+            this.width = Math.floor(sw / this.row);
+            this.height = Math.floor(sh / this.row);
             // 初始化第一个元素
-            this.add(Math.floor(row / 2) * this.width, Math.floor(col / 2) * this.height);
+            this.add(Math.floor(this.row / 2) * this.width, Math.floor(this.col / 2) * this.height);
         },
         /**
          * 判断是否进入下一关
@@ -79,6 +79,7 @@
                 clearInterval(this.timer);
                 this.flash();
                 this.food = [];
+                this.obstacle = [];
                 this.body = [];
                 this.init(this.row * 2, this.col * 2, this.speed / 2);
 
@@ -88,9 +89,11 @@
          * 刷新页面节点
          */
         flash: function () {
-            console.log('123');
             for (var i = 0, snake; snake = this.body[i++];) {
                 this.dom.removeChild(snake);
+            }
+            for (var j = 0, o; o = this.obstacle[j++];) {
+                this.dom.removeChild(o);
             }
         },
         /**
@@ -112,7 +115,6 @@
          * @returns {boolean} 返回是否结束的布尔值
          */
         step: function () {
-            var that = this;
             // 对第一个元素的操作
             var ce = this.body[0];
             var cl = parseInt(this.style(ce, 'left'));
@@ -169,6 +171,15 @@
                     break;
                 }
             }
+            for (var j = 0, o; o = this.obstacle[i++];) {
+                var l = parseInt(o.style.left);
+                var t = parseInt(o.style.top);
+                if (l === left && t === top) {
+                    alert('游戏结束');
+                    clearInterval(this.timer);
+                    break;
+                }
+            }
         },
         /**
          * 为snake数组添加子节点
@@ -206,6 +217,18 @@
                 node.style['left'] = this.rand(0, this.row - 1) * this.width + 'px';
                 node.style['top'] = this.rand(0, this.col - 1) * this.height + 'px';
                 this.food.push(node);
+            }
+        },
+        obstacleInit: function (n) {
+            for (var i = 0; i < n; i++) {
+                var node = document.createElement('div');
+                this.dom.appendChild(node);
+                node.className = 'obstacle';
+                this.style(node, 'width', this.width);
+                this.style(node, 'height', this.height);
+                node.style['left'] = this.rand(0, this.row - 1) * this.width + 'px';
+                node.style['top'] = this.rand(0, this.col - 1) * this.height + 'px';
+                this.obstacle.push(node);
             }
         },
         /**

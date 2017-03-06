@@ -14,6 +14,8 @@
         this.end = [];
         this.man = null;
 
+        this.level = 0;
+
         // 不同方向对应的图片索引
         this.rightIndex = 2;
         this.leftIndex = 1;
@@ -21,9 +23,9 @@
         this.upIndex = 7;
         // 存储当前移动的箱子的div，用于判断箱子是否到达目标点
         this.currentBox = null;
-
-        this.direction = 'right';
+        // 保存项目是否到目标点的布尔值
         this.status = [];
+        this.direction = 'right';
 
         this.init();
     }
@@ -33,14 +35,14 @@
          * 初始化函数
          */
         init: function () {
-            this.wallInit(this.config['wallArr']);
-            this.boxInit(this.config['boxArr']);
-            this.manInit(this.config['manArr']);
-            this.endInit(this.config['endArr']);
+            this.wallInit(this.config['wallArr'][this.level]);
+            this.boxInit(this.config['boxArr'][this.level]);
+            this.manInit(this.config['manArr'][this.level]);
+            this.endInit(this.config['endArr'][this.level]);
             this.keyEvent();
         },
         /**
-         * 初始化箱子
+         * 初始化墙
          * @param wall
          */
         wallInit: function (wall) {
@@ -79,18 +81,18 @@
          * @param index
          */
         manWalk: function (index) {
-            var that = this;
+            // 获取当前的位置
             var currentLeft = parseInt(this.man.style.left);
             var currentTop = parseInt(this.man.style.top);
             this.man.style.backgroundImage = 'url("../boxMan/src/img/Character' + index + '.png")';
-            if (that.direction === 'right') {
+            if (this.direction === 'right') {
                 if (this.obstacle(currentLeft + 50, currentTop, 'wall') === true || this.boxMove(currentLeft + 50, currentTop) === false) {
                     this.man.style.left = currentLeft + 'px';
                 } else {
                     this.man.style.left = currentLeft + 50 + 'px';
                 }
             }
-            if (that.direction === 'left') {
+            if (this.direction === 'left') {
                 if (this.obstacle(currentLeft - 50, currentTop, 'wall') === true || this.boxMove(currentLeft - 50, currentTop) === false) {
                     this.man.style.left = currentLeft + 'px';
                 } else {
@@ -98,7 +100,7 @@
                 }
 
             }
-            if (that.direction === 'up') {
+            if (this.direction === 'up') {
                 if (this.obstacle(currentLeft, currentTop - 50, 'wall') === true || this.boxMove(currentLeft, currentTop - 50) === false) {
                     this.man.style.top = currentTop + 'px';
                 } else {
@@ -106,7 +108,7 @@
                 }
 
             }
-            if (that.direction === 'down') {
+            if (this.direction === 'down') {
                 if (this.obstacle(currentLeft, currentTop + 50, 'wall') === true || this.boxMove(currentLeft, currentTop + 50) === false) {
                     this.man.style.top = currentTop + 'px';
                 } else {
@@ -242,6 +244,7 @@
                     if (that.isWin()) {
                         setTimeout(function () {
                             alert('you win');
+                            that.next();
                         }, 100);
                     }
                 }
@@ -255,6 +258,7 @@
                     if (that.isWin()) {
                         setTimeout(function () {
                             alert('you win');
+                            that.next();
                         }, 100);
                     }
                 }
@@ -268,6 +272,7 @@
                     if (that.isWin()) {
                         setTimeout(function () {
                             alert('you win');
+                            that.next();
                         }, 100);
                     }
                 }
@@ -281,10 +286,22 @@
                     if (that.isWin()) {
                         setTimeout(function () {
                             alert('you win');
+                            that.next();
                         }, 100);
                     }
                 }
             });
+        },
+        /**
+         * 进入下一关
+         */
+        next: function () {
+            if (this.level === this.config.wall.length) {
+                alert('没有更多了');
+            } else {
+                this.level++;
+                this.init();
+            }
         },
         /**
          * 惰性加载的事件处理函数

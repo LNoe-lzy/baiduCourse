@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>infinite scroll</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #efeff4;
+        }
+
+        .header {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            text-align: center;
+            padding: 10px 0 10px 0;
+            font-size: 17px;
+            font-weight: 700;
+            border-bottom: #c4c4c4 solid 1px;
+            background: #f7f7f8;
+        }
+
+        .main {
+            padding-top: 70px;
+            background: #efeff4;
+            width: 100%;
+            height: 100%;
+        }
+
+        .main > .item {
+            box-sizing: border-box;
+            width: 100%;
+            background: #ffffff;
+            padding: 0 20px 0 20px;
+        }
+
+        .main > .item > div {
+            width: 100%;
+            padding: 15px 0 15px 0;
+            border-bottom: #c4c4c4 solid 1px;
+        }
+
+        #load {
+            width: 100%;
+            text-align: center;
+            padding: 10px 0 10px 0;
+
+        }
+
+        #load > img {
+            width: 32px;
+            height: 32px;
+            animation: load 0.5s linear infinite
+        }
+
+        @keyframes load {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="header">infinite scroll</div>
+<div class="main">
+    <div class="item">
+        <div>item1</div>
+    </div>
+    <div class="item">
+        <div>item2</div>
+    </div>
+    <div class="item">
+        <div>item3</div>
+    </div>
+    <div class="item">
+        <div>item4</div>
+    </div>
+    <div class="item">
+        <div>item5</div>
+    </div>
+    <div class="item">
+        <div>item6</div>
+    </div>
+    <div class="item">
+        <div>item7</div>
+    </div>
+    <div class="item">
+        <div>item8</div>
+    </div>
+    <div class="item">
+        <div>item9</div>
+    </div>
+    <div class="item">
+        <div>item10</div>
+    </div>
+    <div class="item">
+        <div>item11</div>
+    </div>
+    <div class="item">
+        <div>item12</div>
+    </div>
+    <div class="item">
+        <div>item13</div>
+    </div>
+    <div class="item">
+        <div>item14</div>
+    </div>
+    <div class="item">
+        <div>item15</div>
+    </div>
+    <div class="item">
+        <div>item16</div>
+    </div>
+    <div class="item">
+        <div>item17</div>
+    </div>
+    <div class="item">
+        <div>item18</div>
+    </div>
+    <div class="item">
+        <div>item19</div>
+    </div>
+    <div class="item">
+        <div>item20</div>
+    </div>
+</div>
+<div id="load">
+    <img src="img/loading.png">
+</div>
+
+<script>
+    window.onload = function () {
+        var load = document.getElementById('load');
+
+        var max = 1;
+
+        function scrollToTop() {
+            var documentHeight = document.documentElement.offsetHeight;
+            var clientH = document.documentElement.clientHeight;
+            var scrollTop = document.body.scrollTop;
+            return documentHeight - clientH - scrollTop < 20
+        }
+
+        // 模拟ajax从服务器异步加载数据
+        function loadData() {
+            max += 20;
+            if (max + 20 > 80) {
+                load.style.display = 'none';
+                return;
+            }
+            var main = document.getElementsByClassName('main')[0];
+            var frag = document.createDocumentFragment();
+            for (var i = max; i < max + 20; i++) {
+                var item = document.createElement('div');
+                var div = document.createElement('div');
+                item.className = 'item';
+                item.appendChild(div);
+                div.innerHTML = 'item' + i;
+                frag.appendChild(item);
+            }
+            main.appendChild(frag);
+            watchScroll();
+        }
+
+        function watchScroll() {
+            if (!scrollToTop()) {
+                setTimeout(watchScroll, 1000);
+                return;
+            }
+            loadData();
+        }
+
+        watchScroll();
+    };
+</script>
+</body>
+</html>

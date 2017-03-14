@@ -6,6 +6,8 @@
 </head>
 <body>
 <script>
+
+
     var Observer = function (data) {
         this.data = data;
         this.walk(data);
@@ -44,18 +46,13 @@
         }
     };
 
-    var data = {
-        user: {
-            name: "lzy",
-            age: "21"
-        },
-        address: {
-            city: "beijing"
+    var app = new Observer({
+        info: {
+            name: 'lzy',
+            age: 21
         }
-    };
+    });
 
-    var app = new Observer(data);
-    console.log(data.user);
 </script>
 </body>
 </html>

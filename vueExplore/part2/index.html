@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var Event = function () {
+        this.handlers = {};
+    };
+    Event.prototype = {
+        // 构造器指向创建的对象
+        constructor: Event,
+        // 注册事件处理函数
+        on: function (e, handler) {
+            if (this.handlers[e]) {
+                this.handlers[e].push(handler);
+            } else {
+                this.handlers[e] = [handler];
+            }
+        },
+        // 删除事件处理函数
+        off: function (e) {
+            for (var key in this.handlers) {
+                if (this.handlers.hasOwnProperty(key) && key === e) {
+                    delete this.handlers[key];
+                }
+            }
+        },
+        // 执行事件处理函数
+        emit: function (e) {
+            console.log(e);
+            var arg = Array.prototype.slice.call(arguments, 1);
+            for (var i = 0, handler; handler = this.handlers[e][i++];) {
+                handler.apply(this, arg);
+            }
+            return this;
+        }
+    };
+
+
+    var Observer = function (data) {
+        this.data = data;
+        this.walk(data);
+        this.eventBus = new Event();
+    };
+
+    Observer.prototype = {
+        walk: function (obj) {
+            var val;
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    val = obj[key];
+                    if (typeof val === 'object') {
+                        new Observer(val);
+                    }
+                    this.convert(key, val);
+                }
+            }
+        },
+        convert: function (key, val) {
+            var that = this;
+            Object.defineProperty(this.data, key, {
+                enumerable: true,
+                configurable: true,
+                get: function () {
+                    console.log('你访问了:' + key);
+                    return val;
+                },
+                set: function (newVal) {
+                    // console.log('你重置了:' + key);
+                    // console.log('新的key:' + key + '=' + newVal);
+                    if (newVal === val) {
+                        return;
+                    }
+                    that.eventBus.emit(key, val, newVal);
+                    val = newVal;
+                    if (typeof newVal === 'object') {
+                        new Observer(newVal);
+                    }
+                }
+            })
+        },
+        $watch: function (event, handler) {
+            this.eventBus.on(event, handler);
+        }
+    };
+
+    var app = new Observer({
+        info: {
+            age: 21
+        }
+    });
+
+    app.$watch('age', function (old, news) {
+        console.log('age has changed');
+        console.log(old);
+    });
+
+    app.data.info['age'] = 22;
+
+
+</script>
+</body>
+</html>
